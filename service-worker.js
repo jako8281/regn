@@ -3,7 +3,7 @@ self.addEventListener('install', function(e) {
   e.waitUntil(
     caches.open('regn-cache').then(function(cache) {
       return cache.addAll([
-        './index_pwa.html',
+        './index.html',
         './favicon.png',
         './manifest.json'
       ]);
