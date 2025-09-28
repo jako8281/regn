@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="da">
 <head>
-<meta charset="utf-8"/>
-<title>Regnetræning</title>
-<style>
+  <meta charset="UTF-8">
+  <title>Regnetræning</title>
+  <style>
 
 #operation-buttons {
   margin: 20px;
@@ -53,20 +52,34 @@
       font-size: 1.2em;
     }
   </style>
+
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#333333">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+
 </head>
 <body>
-<h1>Regnetræning</h1>
+  <h1>Regnetræning</h1>
+
 <div id="operation-buttons">
-<button onclick="selectOperation('+')">Plus</button>
-<button onclick="selectOperation('-')">Minus</button>
-<button onclick="selectOperation('*')">Gange</button>
-<button onclick="selectOperation('/')">Division</button>
-<button onclick="selectOperation('mix')">Blandet</button>
+  <button onclick="selectOperation('+')">Plus</button>
+  <button onclick="selectOperation('-')">Minus</button>
+  <button onclick="selectOperation('*')">Gange</button>
+  <button onclick="selectOperation('/')">Division</button>
+  <button onclick="selectOperation('mix')">Blandet</button>
 </div>
-<div id="task">Tryk på en regneart for at starte</div>
-<input autocomplete="off" id="answer" placeholder="Svar" type="text"/>
-<div id="counter">Korrekte svar: 0</div>
-<script>
+
+  
+  <div id="task">Tryk på en regneart for at starte</div>
+  <input type="text" id="answer" placeholder="Svar" autocomplete="off" />
+  <div id="counter">Korrekte svar: 0</div>
+
+  <script>
     const taskEl = document.getElementById("task");
     const answerEl = document.getElementById("answer");
     const counterEl = document.getElementById("counter");
