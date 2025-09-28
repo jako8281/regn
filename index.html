@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html lang="da">
+<head>
+<meta charset="utf-8"/>
+<title>Regnetræning</title>
+<style>
+
+#operation-buttons {
+  margin: 20px;
+}
+#operation-buttons button {
+  font-size: 1.2em;
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#operation-buttons button:hover {
+  background-color: white;
+  color: #333333;
+}
+
+    body {
+      background-color: #333333;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    select, input {
+      font-size: 1.5em;
+      margin: 10px;
+      padding: 5px;
+      background-color: transparent;
+      color: white;
+      border: 2px solid white;
+      border-radius: 5px;
+      text-align: center;
+    }
+    input:focus {
+      outline: none;
+    }
+    #task {
+      font-size: 2em;
+      margin: 20px;
+    }
+    #counter {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+<h1>Regnetræning</h1>
+<div id="operation-buttons">
+<button onclick="selectOperation('+')">Plus</button>
+<button onclick="selectOperation('-')">Minus</button>
+<button onclick="selectOperation('*')">Gange</button>
+<button onclick="selectOperation('/')">Division</button>
+<button onclick="selectOperation('mix')">Blandet</button>
+</div>
+<div id="task">Tryk på en regneart for at starte</div>
+<input autocomplete="off" id="answer" placeholder="Svar" type="text"/>
+<div id="counter">Korrekte svar: 0</div>
+<script>
+    const taskEl = document.getElementById("task");
+    const answerEl = document.getElementById("answer");
+    const counterEl = document.getElementById("counter");
+    let currentOperation = "+";
+
+    let correctAnswer = 0;
+    let score = 0;
+
+    function generateTask(op) {
+      let a, b, task, result;
+
+      if (op === "mix") {
+        const ops = ["+", "-", "*", "/"];
+        op = ops[Math.floor(Math.random() * ops.length)];
+      }
+
+      switch (op) {
+        case "+":
+          a = (Math.random() * 90 + 10).toFixed(2);
+          b = (Math.random() * 900 + 100).toFixed(1);
+          result = (parseFloat(a) + parseFloat(b)).toFixed(2);
+          task = `${a.replace(".", ",")} + ${b.replace(".", ",")}`;
+          break;
+        case "-":
+          a = (Math.random() * 900 + 100).toFixed(1);
+          b = (Math.random() * 90 + 10).toFixed(2);
+          result = (parseFloat(a) - parseFloat(b)).toFixed(2);
+          task = `${a.replace(".", ",")} - ${b.replace(".", ",")}`;
+          break;
+        case "*":
+          a = Math.floor(Math.random() * 90 + 10);
+          b = Math.floor(Math.random() * 900 + 100);
+          result = a * b;
+          task = `${a} • ${b}`;
+          break;
+        case "/":
+          b = Math.floor(Math.random() * 10 + 1);
+          result = Math.floor(Math.random() * 90 + 10);
+          a = result * b;
+          task = `${a} : ${b}`;
+          break;
+      }
+
+      correctAnswer = result.toString().replace(".", ",");
+      taskEl.textContent = task;
+      answerEl.value = "";
+      answerEl.focus();
+    }
+
+    answerEl.addEventListener("input", () => {
+      if (answerEl.value.trim() === correctAnswer) {
+        score++;
+        counterEl.textContent = `Korrekte svar: ${score}`;
+        generateTask(currentOperation);
+      }
+    });
+
+    
+  
+function selectOperation(op) {
+  currentOperation = op;
+  score = 0;
+  counterEl.textContent = `Korrekte svar: ${score}`;
+  generateTask(currentOperation);
+}
+
+</script>
+</body>
+</html>
