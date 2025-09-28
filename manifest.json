@@ -2,7 +2,7 @@
   "name": "Regn af JBS",
   "short_name": "Regn",
   "description": "Tr\u00e6n regnestykker med dansk notation og hurtig feedback",
-  "start_url": "./index_pwa.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#333333",
   "theme_color": "#333333",
