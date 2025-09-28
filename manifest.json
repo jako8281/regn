@@ -1,0 +1,21 @@
+{
+  "name": "Regn af JBS",
+  "short_name": "Regn",
+  "description": "Tr\u00e6n regnestykker med dansk notation og hurtig feedback",
+  "start_url": "./index_pwa.html",
+  "display": "standalone",
+  "background_color": "#333333",
+  "theme_color": "#333333",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
