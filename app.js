@@ -155,7 +155,7 @@ window.addEventListener('beforeinstallprompt', (e)=>{
 // --- SW registration ---
 if('serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('/Hjem/sw.js');
+    navigator.serviceWorker.register('/regn/sw.js');
   });
 }
 
