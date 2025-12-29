@@ -1,156 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="da">
 <head>
-  <meta charset="UTF-8">
-  <title>Regnetræning</title>
-  <style>
-
-#operation-buttons {
-  margin: 20px;
-}
-#operation-buttons button {
-  font-size: 1.2em;
-  margin: 5px;
-  padding: 10px 20px;
-  background-color: transparent;
-  color: white;
-  border: 2px solid white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-#operation-buttons button:hover {
-  background-color: white;
-  color: #333333;
-}
-
-    body {
-      background-color: #333333;
-      color: white;
-      font-family: sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-    select, input {
-      font-size: 1.5em;
-      margin: 10px;
-      padding: 5px;
-      background-color: transparent;
-      color: white;
-      border: 2px solid white;
-      border-radius: 5px;
-      text-align: center;
-    }
-    input:focus {
-      outline: none;
-    }
-    #task {
-      font-size: 2em;
-      margin: 20px;
-    }
-    #counter {
-      margin-top: 20px;
-      font-size: 1.2em;
-    }
-  </style>
-
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#333333">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#3278d7" />
+  <title>Rengøring – Hjørring</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" sizes="192x192" href="/Hjem/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/Hjem/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="stylesheet" href="/Hjem/styles.css" />
 </head>
 <body>
-  <h1>Regnetræning</h1>
+  <header>
+    <h1>Rengøringsplan</h1>
+    <div id="dateDisplay" aria-live="polite"></div>
+    <div class="controls">
+      <button id="installBtn" class="secondary" hidden>Installér som app</button>
+      <button id="resetToday" class="secondary">Nulstil i dag</button>
+      <button id="resetWeek" class="secondary">Nulstil uge</button>
+      <button id="resetMonth" class="secondary">Nulstil måned</button>
+    </div>
+  </header>
 
-<div id="operation-buttons">
-  <button onclick="selectOperation('+')">Plus</button>
-  <button onclick="selectOperation('-')">Minus</button>
-  <button onclick="selectOperation('*')">Gange</button>
-  <button onclick="selectOperation('/')">Division</button>
-  <button onclick="selectOperation('mix')">Blandet</button>
-</div>
+  <main>
+    <section id="daily" class="card">
+      <h2>Dagens gøremål</h2>
+      <div id="dailyList" class="list"></div>
+    </section>
 
-  
-  <div id="task">Tryk på en regneart for at starte</div>
-  <input type="text" id="answer" placeholder="Svar" autocomplete="off" />
-  <div id="counter">Korrekte svar: 0</div>
+    <section id="weekly" class="card">
+      <h2>Ugens fokuspunkter <span id="todayName" class="pill"></span></h2>
+      <div id="weeklyList" class="list"></div>
+      <details>
+        <summary>Se hele ugeplanen</summary>
+        <div id="fullWeek" class="week-grid"></div>
+      </details>
+    </section>
 
-  <script>
-    const taskEl = document.getElementById("task");
-    const answerEl = document.getElementById("answer");
-    const counterEl = document.getElementById("counter");
-    let currentOperation = "+";
+    <section id="monthly" class="card">
+      <h2>Månedlige opgaver</h2>
+      <p class="hint">Afkrydsning nulstilles automatisk ved månedsskifte.</p>
+      <div id="monthlyList" class="list"></div>
+    </section>
+  </main>
 
-    let correctAnswer = 0;
-    let score = 0;
+  <footer>
+    <small>Lavt skærmforbrug: få, tydelige opgaver pr. dag. • Kan installeres som webapp på telefonen.</small>
+  </footer>
 
-    function generateTask(op) {
-      let a, b, task, result;
-
-      if (op === "mix") {
-        const ops = ["+", "-", "*", "/"];
-        op = ops[Math.floor(Math.random() * ops.length)];
-      }
-
-      switch (op) {
-        case "+":
-          a = (Math.random() * 90 + 10).toFixed(2);
-          b = (Math.random() * 900 + 100).toFixed(1);
-          result = (parseFloat(a) + parseFloat(b)).toFixed(2);
-          task = `${a.replace(".", ",")} + ${b.replace(".", ",")}`;
-          break;
-        case "-":
-          a = (Math.random() * 900 + 100).toFixed(1);
-          b = (Math.random() * 90 + 10).toFixed(2);
-          result = (parseFloat(a) - parseFloat(b)).toFixed(2);
-          task = `${a.replace(".", ",")} - ${b.replace(".", ",")}`;
-          break;
-        case "*":
-          a = Math.floor(Math.random() * 90 + 10);
-          b = Math.floor(Math.random() * 900 + 100);
-          result = a * b;
-          task = `${a} • ${b}`;
-          break;
-        case "/":
-          b = Math.floor(Math.random() * 10 + 1);
-          result = Math.floor(Math.random() * 90 + 10);
-          a = result * b;
-          task = `${a} : ${b}`;
-          break;
-      }
-
-      correctAnswer = result.toString().replace(".", ",");
-      taskEl.textContent = task;
-      answerEl.value = "";
-      answerEl.focus();
-    }
-
-    answerEl.addEventListener("input", () => {
-      if (answerEl.value.trim() === correctAnswer) {
-        score++;
-        counterEl.textContent = `Korrekte svar: ${score}`;
-        generateTask(currentOperation);
-      }
-    });
-
-    
-  
-function selectOperation(op) {
-  currentOperation = op;
-  score = 0;
-  counterEl.textContent = `Korrekte svar: ${score}`;
-  generateTask(currentOperation);
-}
-
-</script>
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/regn/sw.js')
-      .then(function(registration) {
-        console.log('Service Worker registered with scope:', registration.scope);
-      })
-      .catch(function(error) {
-        console.log('Service Worker registration failed:', error);
-      });
-  }
-</script>
+  <script src="/Hjem/app.js"></script>
 </body>
 </html>
